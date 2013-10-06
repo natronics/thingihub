@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+while getopts ":cu" opt; do
+  case $opt in
+    c)
+      echo "Create" >&2
+      ;;
+    u)
+      echo "Update" >&2
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
+done
