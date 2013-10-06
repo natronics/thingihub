@@ -8,10 +8,10 @@ create_pages ()
     git submodule add $LAYOUTS _layouts;    # init layout submodule
     git submodule init;                     # make sure it gets there
     git commit -m "init jekyll layouts"     # apply the change
-    cp README.markdown index.markdown
-    sed -i '1i---\nlayout: thingihub\ntitle: Thingihub\n---\n' index.markdown
+    thingihub_do;                           # run python to genorate page
+    git add _config.yml
     git add index.markdown
-    git commit -m "index page from readme"
+    git commit -m "github pages"
 }
 
 delete_pages ()
@@ -30,6 +30,7 @@ update_pages ()
     git checkout master;                    # update layouts submodule
     git pull;
     cd ..
+    thingihub_do;                           # run python to genorate page
 }
 
 

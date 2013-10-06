@@ -8,6 +8,7 @@ setup(
     author_email='nathan.bergey@gmail.com',
     url='https://github.com/natronics/thingihub',
     scripts = [
-        'scripts/thingihub'
+        'scripts/thingihub',
+        'scripts/thingihub_do',
     ]
 )

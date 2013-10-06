@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+import json
+import glob
+
+with open('thingihub.json', 'r') as meta:
+    meta = json.loads(meta.read())
+
+with open('index.markdown', 'w') as index:
+    index.write("""---
+layout: thingihub
+title: %s
+mainimage: %s
+fork: %s
+stls: %s
+---
+
+""" % ( meta['project_name'],
+        meta['main_image'],
+        meta['github'],
+        repr(glob.glob("./stl/*.stl"))))
+
+    for line in meta['desc']:
+        index.write(line+'\n')
+
+with open('_config.yml', 'w') as config:
+    config.write("""exclude: [source, stl, thingihub.json, README.markdown]
+"""
+)
