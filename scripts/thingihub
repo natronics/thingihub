@@ -1,13 +1,39 @@
 #!/usr/bin/env bash
 
-while getopts ":cu" opt; do
+LAYOUTS="https://github.com/natronics/jekyll-layouts.git"
+
+create_pages ()
+{   # Creates gh-pages branch, merges master and runs generator
+    git checkout -b gh-pages;               # create magic gh-pages branch
+    git submodule add $LAYOUTS _layouts;    # init layout submodule
+    git submodule init;                     # make sure it gets there
+    git commit -m "init jekyll layouts"     # apply the change
+}
+
+delete_pages ()
+{   # Removes gh-pages branch, useful for starting over
+    git checkout master;                    # double check we're on master
+    git branch -D gh-pages;                 # remove branch
+    rm -rf _layouts                         # clean up mess
+}
+
+update_pages ()
+{   # Update pages
+    git checkout gh-pages;
+    git merge master;                       # update pages branch
+    git submodule update;
+    cd _layouts;
+    git checkout master;                    # update layouts submodule
+    git pull;
+    cd ..
+}
+
+
+while getopts ":cud" opt; do
   case $opt in
-    c)
-      echo "Create" >&2
-      ;;
-    u)
-      echo "Update" >&2
-      ;;
+    c) create_pages ;;
+    d) delete_pages ;;
+    u) update_pages ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
       ;;
